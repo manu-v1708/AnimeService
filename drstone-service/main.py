@@ -21,12 +21,13 @@ app = FastAPI(
     version     = "1.0.0"
 )
 
-# ── CORS ──────────────────────────────────────────────────
+# ── CORS — permitir cualquier origen ─────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins  = ["*"],
-    allow_methods  = ["GET", "OPTIONS"],
-    allow_headers  = ["*"],
+    allow_origins     = ["*"],
+    allow_credentials = False,
+    allow_methods     = ["GET", "OPTIONS", "POST"],
+    allow_headers     = ["*"],
 )
 
 # ── Conexión MongoDB ──────────────────────────────────────
@@ -40,7 +41,6 @@ async def startup_db():
         client     = AsyncIOMotorClient(MONGO_URI, serverSelectionTimeoutMS=10000)
         db         = client[DB_NAME]
         collection = db[COLLECTION]
-        # Verificar conexión
         await client.admin.command('ping')
         print("✅ Conectado a MongoDB Atlas")
     except Exception as e:
@@ -52,23 +52,13 @@ async def shutdown_db():
     if client:
         client.close()
 
-# ── Modelo ────────────────────────────────────────────────
-class Personaje(BaseModel):
-    nombre   : str
-    altura   : str
-    peso     : str
-    reino    : str
-    habilidad: str
-    ci       : str
-    imagen   : str
-
 # ── Endpoints ─────────────────────────────────────────────
 
 @app.get("/", tags=["Sistema"])
 async def health_check():
     return {
         "message": "🚀 Dr. Stone Service en línea",
-        "version": "1.0.0 – FastAPI + MongoDB"
+        "version": "1.0.0"
     }
 
 @app.get("/personaje/{nombre}", tags=["Dr. Stone"])
@@ -83,8 +73,8 @@ async def get_personaje(nombre: str):
 
     if not personaje:
         raise HTTPException(
-            status_code=404,
-            detail=f"Personaje \"{nombre.lower()}\" no encontrado"
+            status_code = 404,
+            detail      = f"Personaje \"{nombre.lower()}\" no encontrado"
         )
 
     return personaje
