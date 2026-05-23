@@ -1,0 +1,5 @@
+com\pokeservice\jjk\controller\PersonajeController.class
+com\pokeservice\jjk\JjkServiceApplication.class
+com\pokeservice\jjk\model\Personaje.class
+com\pokeservice\jjk\config\CorsConfig.class
+com\pokeservice\jjk\repository\PersonajeRepository.class

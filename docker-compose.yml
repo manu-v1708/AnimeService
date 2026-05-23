@@ -1,0 +1,23 @@
+services:
+
+  drstone-service:
+    build: ./drstone-service
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URI=mongodb+srv://manu83535_db_user:d68gS8saxYY0l5Kw@cluster0.fyocm6u.mongodb.net/?appName=Cluster0
+
+  pokeservice:
+    build: ./PokeService
+    ports:
+      - "3000:3000"
+    environment:
+      - SUPABASE_URL=https://cazxvbycmisoljeuonct.supabase.co
+      - SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhenh2YnljbWlzb2xqZXVvbmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTEwMzUsImV4cCI6MjA5MzQ4NzAzNX0.dvNlPXVieeaQ8louQrNMP7MTxPOpUUQCIrxfh4gkXjM
+
+  jjk-service:
+    build: ./jjk-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://aws-1-us-west-2.pooler.supabase.com:5432/postgres?user=postgres.cazxvbycmisoljeuonct&password=animepaswword&sslmode=require
